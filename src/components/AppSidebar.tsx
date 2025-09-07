@@ -39,7 +39,7 @@ const specialItems = [
 ];
 
 export function AppSidebar() {
-  const { state } = useSidebar();
+  const { state, setOpenMobile } = useSidebar();
   const location = useLocation();
   const { logout, user } = useAuth();
   const currentPath = location.pathname;
@@ -51,6 +51,13 @@ export function AppSidebar() {
 
   const handleLogout = () => {
     logout();
+  };
+
+  const handleNavigation = () => {
+    // Cerrar el menú en móviles cuando se selecciona una opción
+    if (window.innerWidth < 768) {
+      setOpenMobile(false);
+    }
   };
 
   return (
@@ -77,7 +84,7 @@ export function AppSidebar() {
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <NavLink to={item.url} className={getNavClass}>
+                    <NavLink to={item.url} className={getNavClass} onClick={handleNavigation}>
                       <item.icon className="h-4 w-4" />
                       {!collapsed && <span>{item.title}</span>}
                     </NavLink>
@@ -95,7 +102,7 @@ export function AppSidebar() {
               {specialItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <NavLink to={item.url} className={getNavClass}>
+                    <NavLink to={item.url} className={getNavClass} onClick={handleNavigation}>
                       <item.icon className="h-4 w-4" />
                       {!collapsed && <span>{item.title}</span>}
                     </NavLink>

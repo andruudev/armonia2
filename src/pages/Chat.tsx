@@ -110,6 +110,7 @@ export const Chat: React.FC = () => {
 
   return (
     <div className="h-[calc(100vh-2rem)] max-w-4xl mx-auto p-6 flex flex-col">
+      
       <Card className="flex-1 flex flex-col shadow-soft">
         <CardHeader className="border-b">
           <CardTitle className="flex items-center gap-2">

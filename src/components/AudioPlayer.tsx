@@ -138,7 +138,7 @@ export const AudioPlayer: React.FC = () => {
               </div>
 
               {/* Controls */}
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="flex items-center gap-2">
                   <Button
                     variant="outline"
@@ -170,7 +170,7 @@ export const AudioPlayer: React.FC = () => {
                   </Button>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 w-full sm:w-auto">
                   <Button
                     variant="outline"
                     size="sm"
@@ -178,7 +178,7 @@ export const AudioPlayer: React.FC = () => {
                   >
                     {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
                   </Button>
-                  <div className="w-20">
+                  <div className="flex-1 sm:w-20">
                     <Slider
                       value={[volume * 100]}
                       max={100}
@@ -208,16 +208,16 @@ export const AudioPlayer: React.FC = () => {
         </CardHeader>
         <CardContent>
           <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="grid w-full grid-cols-5">
-              <TabsTrigger value="all">Todos</TabsTrigger>
-              <TabsTrigger value="nature">Naturaleza</TabsTrigger>
-              <TabsTrigger value="ambient">Ambiente</TabsTrigger>
-              <TabsTrigger value="meditation">Meditación</TabsTrigger>
-              <TabsTrigger value="white-noise">Ruido Blanco</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-3 sm:grid-cols-5">
+              <TabsTrigger value="all" className="text-xs">Todos</TabsTrigger>
+              <TabsTrigger value="nature" className="text-xs">Naturaleza</TabsTrigger>
+              <TabsTrigger value="ambient" className="text-xs">Ambiente</TabsTrigger>
+              <TabsTrigger value="meditation" className="text-xs">Meditación</TabsTrigger>
+              <TabsTrigger value="white-noise" className="text-xs">Ruido Blanco</TabsTrigger>
             </TabsList>
 
             <TabsContent value={activeTab} className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4">
                 {filteredTracks.map((track) => (
                   <Card 
                     key={track.id} 
@@ -226,15 +226,15 @@ export const AudioPlayer: React.FC = () => {
                     }`}
                     onClick={() => play(track)}
                   >
-                    <CardContent className="p-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                    <CardContent className="p-3 md:p-4">
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                        <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
                           {getCategoryIcon(track.category)}
                         </div>
-                        <div className="flex-1">
-                          <h4 className="font-semibold text-sm">{track.name}</h4>
-                          <p className="text-xs text-muted-foreground">{track.description}</p>
-                          <div className="flex items-center gap-2 mt-1">
+                        <div className="flex-1 min-w-0 w-full sm:w-auto">
+                          <h4 className="font-semibold text-sm truncate">{track.name}</h4>
+                          <p className="text-xs text-muted-foreground line-clamp-2">{track.description}</p>
+                          <div className="flex flex-wrap items-center gap-1 mt-1">
                             <Badge variant="outline" className="text-xs">
                               {categoryNames[track.category as keyof typeof categoryNames]}
                             </Badge>
@@ -246,6 +246,7 @@ export const AudioPlayer: React.FC = () => {
                         <Button
                           size="sm"
                           variant={currentTrack?.id === track.id ? "default" : "outline"}
+                          className="flex-shrink-0"
                           onClick={(e) => {
                             e.stopPropagation();
                             if (currentTrack?.id === track.id) {

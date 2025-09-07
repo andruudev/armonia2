@@ -5,7 +5,7 @@ export const GEMINI_CONFIG = {
   API_KEY: import.meta.env.VITE_GEMINI_API_KEY || 'demo-key',
   
   // Configuración del modelo
-  MODEL: 'gemini-pro',
+  MODEL: 'gemini-1.5-flash',
   
   // Configuración de seguridad
   SAFETY_SETTINGS: [
@@ -38,5 +38,17 @@ export const GEMINI_CONFIG = {
 
 // Función para verificar si la API key está configurada
 export const isGeminiConfigured = () => {
-  return GEMINI_CONFIG.API_KEY && GEMINI_CONFIG.API_KEY !== 'demo-key';
+  const apiKey = GEMINI_CONFIG.API_KEY;
+  const isConfigured = apiKey && apiKey !== 'demo-key' && apiKey !== 'TU_API_KEY_AQUI';
+  
+  // Debug logging
+  console.log('🔍 Gemini Configuration Debug:', {
+    hasApiKey: !!apiKey,
+    apiKeyLength: apiKey?.length || 0,
+    apiKeyPrefix: apiKey?.substring(0, 10) + '...',
+    isConfigured,
+    envVar: import.meta.env.VITE_GEMINI_API_KEY ? 'Set' : 'Not set'
+  });
+  
+  return isConfigured;
 };

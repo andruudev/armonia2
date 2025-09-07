@@ -1,33 +1,52 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { MoodSlider } from '@/components/MoodSlider';
-import { PublicStats } from '@/components/PublicStats';
-import { Brain, Shield, Clock, BookOpen, Activity, Star, Sparkles, Users } from 'lucide-react';
-import { useAuth } from '@/hooks/useAuth';
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { MoodSlider } from "@/components/MoodSlider";
+import { PublicStats } from "@/components/PublicStats";
+import {
+  Brain,
+  Shield,
+  Clock,
+  BookOpen,
+  Activity,
+  Star,
+  Sparkles,
+  Users,
+} from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
 const benefits = [
   {
     icon: Clock,
     title: "Soporte 24/7",
-    description: "Tu compañero IA siempre disponible para escucharte y ofrecerte apoyo cuando lo necesites."
+    description:
+      "Tu compañero IA siempre disponible para escucharte y ofrecerte apoyo cuando lo necesites.",
   },
   {
     icon: Brain,
     title: "Insights Inteligentes",
-    description: "Análisis avanzado de patrones emocionales para ayudarte a entender mejor tu bienestar mental."
+    description:
+      "Análisis avanzado de patrones emocionales para ayudarte a entender mejor tu bienestar mental.",
   },
   {
     icon: Shield,
     title: "Privado y Seguro",
-    description: "Tus datos están protegidos con encriptación de nivel empresarial. Tu privacidad es nuestra prioridad."
+    description:
+      "Tus datos están protegidos con encriptación de nivel empresarial. Tu privacidad es nuestra prioridad.",
   },
   {
     icon: BookOpen,
     title: "Basado en Evidencia",
-    description: "Recomendaciones fundamentadas en técnicas terapéuticas probadas y ciencia del comportamiento."
-  }
+    description:
+      "Recomendaciones fundamentadas en técnicas terapéuticas probadas y ciencia del comportamiento.",
+  },
 ];
 
 export const Home: React.FC = () => {
@@ -36,9 +55,9 @@ export const Home: React.FC = () => {
 
   const handleMoodSelect = () => {
     if (!user) {
-      navigate('/signup');
+      navigate("/signup");
     } else {
-      navigate('/dashboard');
+      navigate("/dashboard");
     }
   };
 
@@ -75,18 +94,23 @@ export const Home: React.FC = () => {
         <div className="container mx-auto text-center max-w-6xl">
           <div className="animate-fade-in-up mb-12">
             <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-              <span className="text-gradient">ArmonIA:</span><br />
+              <span className="text-gradient">ArmonIA:</span>
+              <br />
               Tu Compañero IA de <br />
               <span className="text-primary">Salud Mental</span>
             </h1>
             <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
-              Experimenta soporte emocional con IA que escucha, entiende y te guía hacia 
-              un mayor bienestar mental. Tu espacio seguro para el crecimiento personal.
+              Experimenta soporte emocional con IA que escucha, entiende y te
+              guía hacia un mayor bienestar mental. Tu espacio seguro para el
+              crecimiento personal.
             </p>
           </div>
 
           {/* Mood Selector Demo */}
-          <div className="animate-fade-in-up mb-12" style={{ animationDelay: '0.2s' }}>
+          <div
+            className="animate-fade-in-up mb-12"
+            style={{ animationDelay: "0.2s" }}
+          >
             <Card className="shadow-soft hover-lift mb-8 max-w-2xl mx-auto">
               <CardHeader>
                 <CardTitle className="text-2xl">Encuentra Paz Mental</CardTitle>
@@ -97,14 +121,19 @@ export const Home: React.FC = () => {
               <CardContent>
                 <MoodSlider onMoodSelect={handleMoodSelect} />
                 <p className="text-sm text-muted-foreground mt-4">
-                  {user ? 'Haz clic en cualquier estado para ir a tu dashboard' : 'Registrarte para guardar tu progreso'}
+                  {user
+                    ? "Haz clic en cualquier estado para ir a tu dashboard"
+                    : "Registrarte para guardar tu progreso"}
                 </p>
               </CardContent>
             </Card>
           </div>
 
           {/* CTA Buttons */}
-          <div className="animate-fade-in-up flex flex-col sm:flex-row gap-4 justify-center items-center" style={{ animationDelay: '0.4s' }}>
+          <div
+            className="animate-fade-in-up flex flex-col sm:flex-row gap-4 justify-center items-center"
+            style={{ animationDelay: "0.4s" }}
+          >
             {!user && (
               <>
                 <Link to="/signup">
@@ -113,7 +142,11 @@ export const Home: React.FC = () => {
                   </Button>
                 </Link>
                 <Link to="/login">
-                  <Button size="lg" variant="outline" className="px-8 py-4 text-lg">
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="px-8 py-4 text-lg"
+                  >
                     Ya tengo cuenta
                   </Button>
                 </Link>
@@ -138,14 +171,15 @@ export const Home: React.FC = () => {
               ¿Por qué elegir <span className="text-primary">ArmonIA</span>?
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Una plataforma integral diseñada para apoyar tu bienestar emocional con tecnología de vanguardia
+              Una plataforma integral diseñada para apoyar tu bienestar
+              emocional con tecnología de vanguardia
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {benefits.map((benefit, index) => (
-              <Card 
-                key={benefit.title} 
+              <Card
+                key={benefit.title}
                 className="hover-lift shadow-soft animate-fade-in-up h-full"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
@@ -153,7 +187,9 @@ export const Home: React.FC = () => {
                   <div className="mx-auto w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-4">
                     <benefit.icon className="h-8 w-8 text-primary" />
                   </div>
-                  <CardTitle className="text-xl font-semibold">{benefit.title}</CardTitle>
+                  <CardTitle className="text-xl font-semibold">
+                    {benefit.title}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="pt-0">
                   <CardDescription className="text-center text-base leading-relaxed">
@@ -180,14 +216,20 @@ export const Home: React.FC = () => {
             <CardContent className="p-8 md:p-12">
               <div className="flex justify-center mb-6">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="h-6 w-6 text-yellow-400 fill-current" />
+                  <Star
+                    key={i}
+                    className="h-6 w-6 text-yellow-400 fill-current"
+                  />
                 ))}
               </div>
               <blockquote className="text-xl md:text-2xl lg:text-3xl font-medium text-muted-foreground mb-8 leading-relaxed">
-                "ArmonIA me ha ayudado a entender mejor mis patrones emocionales y a desarrollar 
-                técnicas efectivas para manejar el estrés. Es como tener un terapeuta disponible 24/7."
+                "ArmonIA me ha ayudado a entender mejor mis patrones emocionales
+                y a desarrollar técnicas efectivas para manejar el estrés. Es
+                como tener un terapeuta disponible 24/7."
               </blockquote>
-              <cite className="text-primary font-semibold text-lg">— María González, Usuaria Beta</cite>
+              <cite className="text-primary font-semibold text-lg">
+                — María González, Usuaria Beta
+              </cite>
             </CardContent>
           </Card>
         </div>
@@ -201,13 +243,10 @@ export const Home: React.FC = () => {
             <span className="text-lg font-semibold">ArmonIA</span>
           </div>
           <p className="text-muted-foreground mb-4">
-            Tu bienestar mental es nuestra prioridad
+            Bootcamp FullStack La Fábrica - Jeniffer Huera, David Guanoluisa &
+            Jeyson Mueses
           </p>
-          <div className="flex justify-center space-x-6 text-sm text-muted-foreground">
-            <a href="#" className="hover:text-primary transition-colors">Privacidad</a>
-            <a href="#" className="hover:text-primary transition-colors">Términos</a>
-            <a href="#" className="hover:text-primary transition-colors">Soporte</a>
-          </div>
+          <p>From 🇪🇨 With 💙 to the 🌍 </p>
         </div>
       </footer>
     </div>
