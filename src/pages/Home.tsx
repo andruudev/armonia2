@@ -3,7 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { MoodSlider } from '@/components/MoodSlider';
-import { Brain, Shield, Clock, BookOpen, Activity, Star } from 'lucide-react';
+import { PublicStats } from '@/components/PublicStats';
+import { Brain, Shield, Clock, BookOpen, Activity, Star, Sparkles, Users } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 
 const benefits = [
@@ -70,22 +71,22 @@ export const Home: React.FC = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="py-20 px-4">
-        <div className="container mx-auto text-center max-w-4xl">
-          <div className="animate-fade-in-up">
+      <section className="py-16 px-4">
+        <div className="container mx-auto text-center max-w-6xl">
+          <div className="animate-fade-in-up mb-12">
             <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
               <span className="text-gradient">ArmonIA:</span><br />
               Tu Compañero IA de <br />
               <span className="text-primary">Salud Mental</span>
             </h1>
-            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
               Experimenta soporte emocional con IA que escucha, entiende y te guía hacia 
               un mayor bienestar mental. Tu espacio seguro para el crecimiento personal.
             </p>
           </div>
 
-          {/* Interactive Mood Demo */}
-          <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+          {/* Mood Selector Demo */}
+          <div className="animate-fade-in-up mb-12" style={{ animationDelay: '0.2s' }}>
             <Card className="shadow-soft hover-lift mb-8 max-w-2xl mx-auto">
               <CardHeader>
                 <CardTitle className="text-2xl">Encuentra Paz Mental</CardTitle>
@@ -103,20 +104,27 @@ export const Home: React.FC = () => {
           </div>
 
           {/* CTA Buttons */}
-          <div className="animate-fade-in-up flex gap-4 justify-center" style={{ animationDelay: '0.4s' }}>
+          <div className="animate-fade-in-up flex flex-col sm:flex-row gap-4 justify-center items-center" style={{ animationDelay: '0.4s' }}>
             {!user && (
               <>
                 <Link to="/signup">
-                  <Button size="lg" className="btn-hero">
+                  <Button size="lg" className="btn-hero px-8 py-4 text-lg">
                     Comenzar Gratis
                   </Button>
                 </Link>
                 <Link to="/login">
-                  <Button size="lg" variant="outline">
+                  <Button size="lg" variant="outline" className="px-8 py-4 text-lg">
                     Ya tengo cuenta
                   </Button>
                 </Link>
               </>
+            )}
+            {user && (
+              <Link to="/dashboard">
+                <Button size="lg" className="btn-hero px-8 py-4 text-lg">
+                  Ir al Dashboard
+                </Button>
+              </Link>
             )}
           </div>
         </div>
@@ -124,31 +132,31 @@ export const Home: React.FC = () => {
 
       {/* Benefits Section */}
       <section className="py-20 px-4 bg-muted/30">
-        <div className="container mx-auto max-w-6xl">
+        <div className="container mx-auto max-w-7xl">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               ¿Por qué elegir <span className="text-primary">ArmonIA</span>?
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               Una plataforma integral diseñada para apoyar tu bienestar emocional con tecnología de vanguardia
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {benefits.map((benefit, index) => (
               <Card 
                 key={benefit.title} 
-                className="hover-lift shadow-soft animate-fade-in-up"
+                className="hover-lift shadow-soft animate-fade-in-up h-full"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <CardHeader className="text-center">
-                  <div className="mx-auto w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
-                    <benefit.icon className="h-6 w-6 text-primary" />
+                <CardHeader className="text-center pb-4">
+                  <div className="mx-auto w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-4">
+                    <benefit.icon className="h-8 w-8 text-primary" />
                   </div>
-                  <CardTitle className="text-lg">{benefit.title}</CardTitle>
+                  <CardTitle className="text-xl font-semibold">{benefit.title}</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-center">
+                <CardContent className="pt-0">
+                  <CardDescription className="text-center text-base leading-relaxed">
                     {benefit.description}
                   </CardDescription>
                 </CardContent>
@@ -158,21 +166,28 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Testimonial Section */}
+      {/* Public Stats Section */}
       <section className="py-20 px-4">
-        <div className="container mx-auto max-w-4xl text-center">
-          <Card className="shadow-mood border-primary/20">
-            <CardContent className="p-8">
-              <div className="flex justify-center mb-4">
+        <div className="container mx-auto max-w-7xl">
+          <PublicStats />
+        </div>
+      </section>
+
+      {/* Testimonial Section */}
+      <section className="py-20 px-4 bg-muted/30">
+        <div className="container mx-auto max-w-5xl text-center">
+          <Card className="shadow-mood border-primary/20 bg-gradient-to-br from-background to-primary/5">
+            <CardContent className="p-8 md:p-12">
+              <div className="flex justify-center mb-6">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
+                  <Star key={i} className="h-6 w-6 text-yellow-400 fill-current" />
                 ))}
               </div>
-              <blockquote className="text-xl md:text-2xl font-medium text-muted-foreground mb-6">
+              <blockquote className="text-xl md:text-2xl lg:text-3xl font-medium text-muted-foreground mb-8 leading-relaxed">
                 "ArmonIA me ha ayudado a entender mejor mis patrones emocionales y a desarrollar 
                 técnicas efectivas para manejar el estrés. Es como tener un terapeuta disponible 24/7."
               </blockquote>
-              <cite className="text-primary font-medium">— María González, Usuaria Beta</cite>
+              <cite className="text-primary font-semibold text-lg">— María González, Usuaria Beta</cite>
             </CardContent>
           </Card>
         </div>

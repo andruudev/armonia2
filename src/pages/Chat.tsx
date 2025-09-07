@@ -3,8 +3,10 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Send, Bot, User, Activity, Brain, Lightbulb } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Send, Bot, User, Activity, Brain, Lightbulb, AlertCircle, Sparkles } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
+import { useGeminiAI } from '@/hooks/useGeminiAI';
 import { toast } from 'sonner';
 
 interface ChatMessage {
@@ -14,42 +16,13 @@ interface ChatMessage {
   timestamp: number;
 }
 
-const aiResponses = [
-  {
-    trigger: ['hola', 'hello', 'hi', 'buenos días', 'buenas tardes'],
-    response: '¡Hola! Soy tu compañero de IA de ArmonIA. Estoy aquí para escucharte y ayudarte con tu bienestar emocional. ¿Cómo te sientes hoy?'
-  },
-  {
-    trigger: ['triste', 'deprimido', 'mal', 'horrible', 'terrible'],
-    response: 'Lamento que te sientas así. Es completamente normal tener días difíciles. ¿Te gustaría contarme qué está pasando? También puedo sugerirte algunos ejercicios de respiración que podrían ayudarte.'
-  },
-  {
-    trigger: ['feliz', 'bien', 'genial', 'excelente', 'fantástico'],
-    response: '¡Me alegra saber que te sientes bien! Es maravilloso tener días positivos. ¿Qué ha hecho que te sientas así de bien hoy? Compartir las experiencias positivas puede ayudarte a mantener este estado.'
-  },
-  {
-    trigger: ['estrés', 'estresado', 'ansiedad', 'ansioso', 'nervioso'],
-    response: 'El estrés y la ansiedad son muy comunes. Respirar profundamente puede ayudar inmediatamente. ¿Has probado la técnica 4-7-8? Inhala por 4, mantén por 7, exhala por 8. También tenemos ejercicios interactivos en la sección de Actividades.'
-  },
-  {
-    trigger: ['ayuda', 'help', 'qué puedes hacer', 'funciones'],
-    response: 'Puedo ayudarte de varias maneras: analizar tus emociones, sugerir técnicas de relajación, escuchar tus preocupaciones, y guiarte hacia recursos útiles. También puedo ayudarte a identificar patrones en tu estado de ánimo.'
-  },
-  {
-    trigger: ['respiración', 'respirar', 'ejercicios'],
-    response: 'Los ejercicios de respiración son muy efectivos. Te recomiendo visitar nuestra sección de Actividades donde tienes una guía interactiva de respiración. También puedes probar ahora: inhala 4 segundos, mantén 4, exhala 6.'
-  },
-  {
-    trigger: ['gracias', 'thank you'],
-    response: 'De nada, es un placer ayudarte. Recuerda que siempre estoy aquí cuando necesites hablar. Tu bienestar es importante. ¿Hay algo más en lo que pueda ayudarte?'
-  }
-];
+// Removed static AI responses - now using Gemini AI
 
 export const Chat: React.FC = () => {
   const { user } = useAuth();
+  const { generateResponse, isLoading, error, clearError } = useGeminiAI();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -88,51 +61,10 @@ export const Chat: React.FC = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const generateAIResponse = (userInput: string): string => {
-    const input = userInput.toLowerCase();
-    
-    // Find matching response
-    const matchedResponse = aiResponses.find(response =>
-      response.trigger.some(trigger => input.includes(trigger))
-    );
-
-    if (matchedResponse) {
-      return matchedResponse.response;
-    }
-
-    // Default responses based on length and content
-    if (input.length < 10) {
-      return 'Entiendo. ¿Podrías contarme un poco más sobre lo que sientes? Estoy aquí para escucharte.';
-    }
-
-    // Sentiment analysis simulation
-    const positiveWords = ['bien', 'feliz', 'genial', 'amor', 'alegre', 'contento', 'esperanza'];
-    const negativeWords = ['mal', 'triste', 'dolor', 'problema', 'difícil', 'preocupado', 'miedo'];
-    
-    const hasPositive = positiveWords.some(word => input.includes(word));
-    const hasNegative = negativeWords.some(word => input.includes(word));
-
-    if (hasPositive && !hasNegative) {
-      return 'Me alegra escuchar que tienes sentimientos positivos. Es importante reconocer y celebrar estos momentos. ¿Qué crees que ha contribuido a que te sientas así?';
-    }
-
-    if (hasNegative && !hasPositive) {
-      return 'Escucho que estás pasando por un momento difícil. Es valiente de tu parte compartir esto conmigo. Recuerda que todos enfrentamos desafíos y está bien no estar bien todo el tiempo. ¿Te gustaría hablar sobre alguna estrategia que podría ayudarte?';
-    }
-
-    // Default empathetic response
-    const defaultResponses = [
-      'Gracias por compartir eso conmigo. Es importante expresar lo que sientes. ¿Cómo puedo apoyarte mejor en este momento?',
-      'Entiendo lo que me cuentas. Cada experiencia es válida e importante. ¿Hay algo específico que te gustaría explorar o alguna forma en que pueda ayudarte?',
-      'Aprecio tu confianza al compartir esto. ¿Te gustaría que hablemos sobre algunas técnicas que podrían ayudarte a manejar estos sentimientos?',
-      'Es normal sentir lo que describes. ¿Has notado algún patrón en estos sentimientos? A veces identificar desencadenantes puede ser útil.'
-    ];
-
-    return defaultResponses[Math.floor(Math.random() * defaultResponses.length)];
-  };
+  // Removed generateAIResponse - now using Gemini AI
 
   const handleSendMessage = async () => {
-    if (!input.trim()) return;
+    if (!input.trim() || isLoading) return;
 
     const userMessage: ChatMessage = {
       id: Date.now().toString(),
@@ -142,12 +74,19 @@ export const Chat: React.FC = () => {
     };
 
     setMessages(prev => [...prev, userMessage]);
+    const currentInput = input.trim();
     setInput('');
-    setIsTyping(true);
+    clearError();
 
-    // Simulate AI thinking time
-    setTimeout(() => {
-      const aiResponse = generateAIResponse(input);
+    try {
+      // Preparar historial de conversación para Gemini
+      const conversationHistory = messages.slice(-10).map(msg => ({
+        role: msg.sender === 'user' ? 'user' as const : 'model' as const,
+        parts: msg.content
+      }));
+
+      const aiResponse = await generateResponse(currentInput, conversationHistory);
+      
       const aiMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
         content: aiResponse,
@@ -156,8 +95,10 @@ export const Chat: React.FC = () => {
       };
 
       setMessages(prev => [...prev, aiMessage]);
-      setIsTyping(false);
-    }, 1000 + Math.random() * 2000); // Random delay between 1-3 seconds
+    } catch (err) {
+      console.error('Error sending message:', err);
+      toast.error('Error al enviar el mensaje. Intenta de nuevo.');
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -174,6 +115,10 @@ export const Chat: React.FC = () => {
           <CardTitle className="flex items-center gap-2">
             <Bot className="h-6 w-6 text-primary" />
             Chat con IA - Asistente de Bienestar
+            <div className="flex items-center gap-1 ml-auto">
+              <Sparkles className="h-4 w-4 text-yellow-500" />
+              <span className="text-sm text-muted-foreground">Powered by Gemini AI</span>
+            </div>
           </CardTitle>
         </CardHeader>
 
@@ -221,7 +166,7 @@ export const Chat: React.FC = () => {
               </div>
             ))}
 
-            {isTyping && (
+            {isLoading && (
               <div className="flex gap-3 animate-fade-in-up">
                 <Avatar className="h-8 w-8 bg-primary/10">
                   <AvatarFallback>
@@ -237,6 +182,15 @@ export const Chat: React.FC = () => {
                 </div>
               </div>
             )}
+
+            {error && (
+              <Alert className="border-red-200 bg-red-50">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription className="text-red-800">
+                  {error}
+                </AlertDescription>
+              </Alert>
+            )}
             <div ref={messagesEndRef} />
           </div>
 
@@ -249,11 +203,11 @@ export const Chat: React.FC = () => {
                 onKeyPress={handleKeyPress}
                 placeholder="Comparte cómo te sientes o haz una pregunta..."
                 className="flex-1"
-                disabled={isTyping}
+                disabled={isLoading}
               />
               <Button 
                 onClick={handleSendMessage}
-                disabled={!input.trim() || isTyping}
+                disabled={!input.trim() || isLoading}
                 className="btn-hero"
               >
                 <Send className="h-4 w-4" />
@@ -269,7 +223,7 @@ export const Chat: React.FC = () => {
           variant="outline"
           size="sm"
           onClick={() => setInput('¿Cómo puedo manejar el estrés?')}
-          disabled={isTyping}
+          disabled={isLoading}
         >
           <Brain className="h-3 w-3 mr-1" />
           Manejar estrés
@@ -278,7 +232,7 @@ export const Chat: React.FC = () => {
           variant="outline"
           size="sm"
           onClick={() => setInput('Me siento ansioso, ¿qué puedo hacer?')}
-          disabled={isTyping}
+          disabled={isLoading}
         >
           <Activity className="h-3 w-3 mr-1" />
           Ansiedad
@@ -287,7 +241,7 @@ export const Chat: React.FC = () => {
           variant="outline"
           size="sm"
           onClick={() => setInput('¿Puedes sugerirme ejercicios de respiración?')}
-          disabled={isTyping}
+          disabled={isLoading}
         >
           <Lightbulb className="h-3 w-3 mr-1" />
           Ejercicios

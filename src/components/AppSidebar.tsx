@@ -18,7 +18,9 @@ import {
   User, 
   LogOut,
   Activity,
-  Home
+  Home,
+  Trophy,
+  Music
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
@@ -29,6 +31,11 @@ const menuItems = [
   { title: 'Chat IA', url: '/chat', icon: MessageCircle },
   { title: 'Actividades', url: '/activities', icon: Activity },
   { title: 'Perfil', url: '/profile', icon: User },
+];
+
+const specialItems = [
+  { title: 'Logros', url: '/achievements', icon: Trophy },
+  { title: 'Sonidos', url: '/audio', icon: Music },
 ];
 
 export function AppSidebar() {
@@ -68,6 +75,24 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <NavLink to={item.url} className={getNavClass}>
+                      <item.icon className="h-4 w-4" />
+                      {!collapsed && <span>{item.title}</span>}
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Recursos</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {specialItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <NavLink to={item.url} className={getNavClass}>

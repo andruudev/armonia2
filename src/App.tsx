@@ -13,6 +13,8 @@ import { Dashboard } from "./pages/Dashboard";
 import { Chat } from "./pages/Chat";
 import { Activities } from "./pages/Activities";
 import { Profile } from "./pages/Profile";
+import { Achievements } from "./pages/Achievements";
+import { Audio } from "./pages/Audio";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -59,6 +61,22 @@ const App = () => (
               <ProtectedRoute>
                 <DashboardLayout>
                   <Profile />
+                </DashboardLayout>
+              </ProtectedRoute>
+            } />
+            
+            <Route path="/achievements" element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <Achievements />
+                </DashboardLayout>
+              </ProtectedRoute>
+            } />
+            
+            <Route path="/audio" element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <Audio />
                 </DashboardLayout>
               </ProtectedRoute>
             } />

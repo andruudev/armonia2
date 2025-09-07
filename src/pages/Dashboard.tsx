@@ -8,9 +8,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { MoodSlider, MoodType, moods } from '@/components/MoodSlider';
 import { MoodChart } from '@/components/MoodChart';
+import { GamificationPanel } from '@/components/GamificationPanel';
 import { useMoods } from '@/hooks/useMoods';
 import { useAuth } from '@/hooks/useAuth';
-import { CalendarDays, TrendingUp, Brain, Sparkles, Plus } from 'lucide-react';
+import { CalendarDays, TrendingUp, Brain, Sparkles, Plus, Trophy } from 'lucide-react';
 import { toast } from 'sonner';
 
 export const Dashboard: React.FC = () => {
@@ -257,6 +258,22 @@ export const Dashboard: React.FC = () => {
           </CardContent>
         </Card>
       )}
+
+      {/* Gamification Panel */}
+      <Card className="shadow-soft border-primary/20">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Trophy className="h-6 w-6 text-primary" />
+            Tu Progreso
+          </CardTitle>
+          <CardDescription>
+            Desbloquea logros y sube de nivel mientras mejoras tu bienestar
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <GamificationPanel />
+        </CardContent>
+      </Card>
 
       {/* Chart and Recent Entries */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

@@ -3,7 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { Wind, Play, Pause, RotateCcw, CheckCircle } from 'lucide-react';
+import { AudioPlayer } from '@/components/AudioPlayer';
+import { Wind, Play, Pause, RotateCcw, CheckCircle, Music } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
 
@@ -297,6 +298,22 @@ export const Activities: React.FC = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* Audio Player Section */}
+      <Card className="shadow-soft border-primary/20">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Music className="h-6 w-6 text-primary" />
+            Sonidos Relajantes
+          </CardTitle>
+          <CardDescription>
+            Explora nuestra biblioteca de sonidos para mejorar tu bienestar
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <AudioPlayer />
+        </CardContent>
+      </Card>
 
       {/* Coming Soon */}
       <Card className="border-dashed border-2 border-muted-foreground/30">
